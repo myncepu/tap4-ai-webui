@@ -29,6 +29,7 @@ export async function GET(req: NextRequest) {
       body: JSON.stringify({
         key: 'value',
       }),
+      cache: 'no-cache',
     });
 
     // 检查目标请求是否成功

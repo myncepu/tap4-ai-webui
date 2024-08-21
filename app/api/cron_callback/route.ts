@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
 import { createClient } from '@/db/supabase/client';
 
 // submit table empty -> stop
