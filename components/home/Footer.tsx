@@ -46,7 +46,7 @@ export default function Footer() {
     },
     {
       title: t('tap4'),
-      href: 'https://tap4.ai/',
+      href: 'https://quicktools.ai/',
     },
     {
       title: t('tattoo'),
