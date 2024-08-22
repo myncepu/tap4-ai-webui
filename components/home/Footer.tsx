@@ -1,4 +1,4 @@
-import { HTMLAttributeAnchorTarget } from 'react';
+import type { HTMLAttributeAnchorTarget } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
@@ -33,24 +33,8 @@ export default function Footer() {
 
   const SupportLinks = [
     {
-      title: 'Flux AI Image Generator',
-      href: 'https://flux-ai.io/',
-    },
-    {
-      title: 'Photo to Video AI',
-      href: 'https://dreammachineai.online/',
-    },
-    {
-      title: 'Flux Pro Image Generator',
-      href: 'https://flux-pro.net/',
-    },
-    {
-      title: t('tap4'),
-      href: 'https://quicktools.ai/',
-    },
-    {
-      title: t('tattoo'),
-      href: 'https://tattooai.design/',
+      title: 'Woy AI Tools Directory',
+      href: 'https://woy.ai/',
     },
   ];
 
