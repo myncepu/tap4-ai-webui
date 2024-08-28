@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/db/supabase/client';
 import { CircleArrowRight } from 'lucide-react';
@@ -18,27 +18,46 @@ export async function generateMetadata({
     locale,
     namespace: 'Metadata.ai',
   });
-  const { data } = await supabase.from('web_navigation').select().eq('name', websiteName);
+  const { data } = await supabase.from('web_navigation').select().eq('name', websiteName).eq('language_code', locale);
 
-  if (!data || !data[0]) {
-    notFound();
+  if (!data || data.length === 0) {
+    const { data: fallbackData } = await supabase
+      .from('web_navigation')
+      .select()
+      .eq('name', websiteName)
+      .eq('language_code', 'en');
+
+    if (!fallbackData || fallbackData.length === 0) {
+      notFound();
+    }
+
+    return {
+      title: `${fallbackData[0].title} | ${t('titleSubfix')}`,
+      description: fallbackData[0].content,
+      alternates: {
+        canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/en/ai/${websiteName}`,
+      },
+      robots: {
+        index: false,
+        follow: true,
+      },
+    };
   }
 
   return {
     title: `${data[0].title} | ${t('titleSubfix')}`,
     description: data[0].content,
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/ai/${websiteName}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
   };
 }
 
-export default async function Page({ params: { websiteName } }: { params: { websiteName: string } }) {
-  const supabase = createClient();
-  const t = await getTranslations('Startup.detail');
-  const { data: dataList } = await supabase.from('web_navigation').select().eq('name', websiteName);
-  if (!dataList) {
-    notFound();
-  }
-  const data = dataList[0];
-
+function renderPage(data: any, t: any) {
   return (
     <div className='w-full'>
       <div className='flex flex-col px-6 py-5 lg:h-[323px] lg:flex-row lg:justify-between lg:px-0 lg:py-10'>
@@ -83,4 +102,37 @@ export default async function Page({ params: { websiteName } }: { params: { webs
       </div>
     </div>
   );
+}
+
+export default async function Page({
+  params: { websiteName, locale },
+}: {
+  params: { websiteName: string; locale: string };
+}) {
+  const supabase = createClient();
+  const t = await getTranslations('Startup.detail');
+  const { data: dataList } = await supabase
+    .from('web_navigation')
+    .select()
+    .eq('name', websiteName)
+    .eq('language_code', locale);
+
+  if (!dataList || dataList.length === 0) {
+    // 如果没有找到对应语言的数据,尝试获取英语版本
+    const { data: fallbackDataList } = await supabase
+      .from('web_navigation')
+      .select()
+      .eq('name', websiteName)
+      .eq('language_code', 'en');
+
+    if (!fallbackDataList || fallbackDataList.length === 0) {
+      notFound();
+    }
+
+    const data = fallbackDataList[0];
+    return renderPage(data, t);
+  }
+
+  const data = dataList[0];
+  return renderPage(data, t);
 }
