@@ -24,7 +24,7 @@ export const InfoPageSize = 12;
 export const FORM_PLACEHOLDER = 'https://quicktools.ai/';
 
 export const WEBSITE_EXAMPLE =
-  '<a href="https://tap4.ai/" title="Tap4 AI Tools Directory">Tap4 AI Tools Diresctory</a>';
+  '<a href="https://quicktools.ai/" title="Quick Tools Directory">Tap4 AI Tools Diresctory</a>';
 
 export const STARTUP_LIST = [
   {
