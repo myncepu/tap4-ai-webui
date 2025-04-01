@@ -33,20 +33,8 @@ export default function Footer() {
 
   const SupportLinks = [
     {
-      title: 'Woy AI',
-      href: 'https://woy.ai/',
-    },
-    {
-      title: 'Dokey AI Tools Directory',
-      href: 'https://dokeyai.com/',
-    },
-    {
-      title: 'Discover thousands of AI Tools',
-      href: 'https://aiwith.me',
-    },
-    {
-      title: 'Tap4 AI Tools Directory',
-      href: 'https://tap4.ai/',
+      title: 'Ghibli Image Generator - Create Studio Ghibli Style Art with AI',
+      href: 'https://ghibli.website/',
     },
   ];
 
